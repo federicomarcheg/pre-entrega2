@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>products</title>
+</head>
+<body>
+    <h1>products</h1>
+    <ul>
+        <% products.forEach(product => { %>
+         <li>
+            <h2><%= product.name %></h2>
+            <p>price: <%= product.price %></p>
+            <p>Category: <%= product.category %></p>
+            <p>Availability: <%= product.availability ? 'Available' : 'not Available' %></p>
+            <button onclick="addToCart('<%= product._id%>')">add to cart</button>
+
+         </li>
+       <%  }) %>
+    </ul>
+    <nav>
+        <% if (hasPrevPage) { %>
+        <a href="<%= prevLink %>">previous</a>
+     <% } %>
+     <% if (hasNextPage) { %>
+    <a href="<%= nextLink %>">Next</a>
+<% } %>
+
+    </nav>
+    <script>
+        function addToCart(productId) {
+            fetch(`/api/carts/add`, {
+                method: 'POST',
+                headers: {
+                    'content-type' : 'application/json'
+                },
+                body:
+                JSON.stringify({ productId, quantity: 1 })
+            }) .then(response => responce.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error(error));      
+            
+            }
+        
+    </script>
+</body>
+</html>
+<title>Cart</title>
+<head>
+    <body>
+        <h1>your cart</h1>
+        <ul>
+            <% cart.products.forEach(item => { %> 
+            <li>
+                <h2><%= item.product.name %></h2>
+            <p>price: <%= item.product.price %></p>
+        <p>Quantity: <%= item.quantity %></p>
+    <button onclick="removeFromCrt('<%= item.product._id %.')">Remove</button>
+               
+            </li>
+        <% }) %>
+        </ul>
+    </body>
+</head>
+<script>
+    
